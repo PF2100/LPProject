@@ -1,6 +1,6 @@
 package IValues;
 
-class VInt implements IValue {
+public class VInt implements IValue {
     int v;
 
     public VInt(int v0) {

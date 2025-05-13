@@ -1,6 +1,9 @@
 PARSER_BEGIN(Parser)
-
 import java.util.*;
+import ASTNodes.*;
+import Env.*;
+import Error.*;
+
 
 public class Parser {
 }

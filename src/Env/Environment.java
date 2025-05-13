@@ -34,14 +34,12 @@ public class Environment<E> {
 
     public E find(String id) throws InterpreterError {
         if (bindings.containsKey(id)) {
-            if (bindings.containsKey(id)) {
-                return bindings.get(id);
+            return bindings.get(id);
+        } else {
+            if (anc != null) {
+                return anc.find(id);
             } else {
-                if (anc != null) {
-                    return anc.find(id);
-                } else {
-                    throw new InterpreterError("The variable " + id + " was not declared in any scope");
-                }
+                throw new InterpreterError("The variable " + id + " was not declared in any scope");
             }
         }
     }

@@ -1,8 +1,8 @@
-import Parser.*;
 import ASTNodes.*;
 import Env.*;
 import IValues.*;
 import Error.*;
+import Parser.*;
 
 public class L0int {
 
