@@ -4,10 +4,10 @@ import IValues.*;
 import Env.*;
 import Error.*;
 
-public class ASTBool {
+public class ASTBool implements ASTNode {
     boolean bool;
     
-    ASTBool(boolean bool) {
+    public ASTBool(boolean bool) {
         this.bool = bool;
     }
 

@@ -152,7 +152,7 @@ public class Parser implements ParserConstants {
       }
       op = jj_consume_token(OR);
       t2 = BM();
-
+        t1 = new ASTOR(t1,t2);
     }
        {if (true) return t1;}
     throw new Error("Missing return statement in function");
@@ -174,7 +174,7 @@ public class Parser implements ParserConstants {
       }
       op = jj_consume_token(AND);
       t2 = Rel();
-
+      t1 = new ASTAND(t1,t2);
     }
        {if (true) return t1;}
     throw new Error("Missing return statement in function");
@@ -216,7 +216,18 @@ public class Parser implements ParserConstants {
         throw new ParseException();
       }
       t2 = Exp();
-
+          if (op.kind == EQ)
+              t1 = new ASTEQ(t1,t2);
+          else if (op.kind == GT)
+              t1 = new ASTGT(t1,t2);
+          else if (op.kind == LT)
+              t1 = new ASTLT(t1,t2);
+          else if (op.kind == GTEQ)
+              t1 = new ASTGTEQ(t1,t2);
+          else if (op.kind == LTEQ)
+              t1 = new ASTLTEQ(t1,t2);
+          else
+              t1 = new ASTDIF(t1,t2);
       break;
     default:
       jj_la1[8] = jj_gen;
@@ -317,11 +328,11 @@ public class Parser implements ParserConstants {
       break;
     case TRUE:
       n = jj_consume_token(TRUE);
-                 /* missing AST for true */; t = null;
+                 t = new ASTBool(Boolean.parseBoolean(n.image));
       break;
     case FALSE:
       n = jj_consume_token(FALSE);
-                   /* missing AST for false */; t = null;
+                  t = new ASTBool(Boolean.parseBoolean(n.image));
       break;
     case Id:
       n = jj_consume_token(Id);
@@ -345,7 +356,7 @@ public class Parser implements ParserConstants {
     case NOT:
       jj_consume_token(NOT);
       t = Fact();
-                        /* missing AST for not */; t = null;
+                       t = new ASTNot(t);
       break;
     case IF:
       jj_consume_token(IF);
@@ -394,12 +405,12 @@ public class Parser implements ParserConstants {
     case PRINT:
       jj_consume_token(PRINT);
       t = Fact();
-                         /* missing AST for print */; t = null;
+                         t = new ASTPrint(false, t);
       break;
     case PRINTLN:
       jj_consume_token(PRINTLN);
       t = Fact();
-                          /* missing AST for println */; t = null;
+                           t = new ASTPrint(true, t);
       break;
     case LPAR:
       jj_consume_token(LPAR);

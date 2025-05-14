@@ -7,7 +7,7 @@ public class VBool implements IValue {
         vBool = bool;
     }
 
-    public boolean getBool() {
+    public boolean getval() {
         return vBool;
     }
 
