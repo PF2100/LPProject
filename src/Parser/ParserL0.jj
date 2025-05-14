@@ -90,6 +90,10 @@ TOKEN :
   |
   <ARROW : "=>">
   |
+  <LIST : "::">
+  |
+  <LLIST : "::?">
+  |
   < String: "\"" ( (~["\"","\\"]) | ("\\" ( ["n","t","b","r","f","\\","\""] ) ) )* "\"" >
   |
   < Id: ["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z","0"-"9"] )* >
@@ -238,8 +242,8 @@ ASTNode Fact() :
     | <STAR> t=Fact() { t = new ASTStar(t); }
     | <MINUS> t=Fact() { t = new ASTNeg(t); }
     | <NOT> t=Fact() { t = new ASTNot(t); }
-    | <IF> t=BA() <LBRA> e1=Let() <RBRA> <ELSE> <LBRA> e2=Let() <RBRA> {/* TBC */ t = null; }
-    | <WHILE> t=BA() <LBRA> body=Let() <RBRA> { /* TBC */ t = null; }
+    | <IF> t=BA() <LBRA> e1=Let() <RBRA> <ELSE> <LBRA> e2=Let() <RBRA> { t = new ASTIf(t, e1, e2); }
+    | <WHILE> t=BA() <LBRA> body=Let() <RBRA> { t = new ASTWhile(t,body); }
     | <FN> n=<Id> { t = new ASTFn(n.image, null); e1 = t;}
       	   	  (<COMMA> n = <Id>  
               { e2 = new ASTFn(n.image,null);

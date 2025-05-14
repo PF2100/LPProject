@@ -368,7 +368,7 @@ public class Parser implements ParserConstants {
       jj_consume_token(LBRA);
       e2 = Let();
       jj_consume_token(RBRA);
-                                                                        /* TBC */ t = null;
+                                                                         t = new ASTIf(t, e1, e2);
       break;
     case WHILE:
       jj_consume_token(WHILE);
@@ -376,7 +376,7 @@ public class Parser implements ParserConstants {
       jj_consume_token(LBRA);
       body = Let();
       jj_consume_token(RBRA);
-                                                /* TBC */ t = null;
+                                                t = new ASTWhile(t,body);
       break;
     case FN:
       jj_consume_token(FN);
