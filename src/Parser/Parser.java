@@ -304,7 +304,7 @@ public class Parser implements ParserConstants {
         op = jj_consume_token(LPAR);
         t2 = Exp();
         jj_consume_token(RPAR);
-
+                                                   t1 = new ASTApp(t1, t2);
         break;
       default:
         jj_la1[12] = jj_gen;
@@ -381,7 +381,7 @@ public class Parser implements ParserConstants {
     case FN:
       jj_consume_token(FN);
       n = jj_consume_token(Id);
-                    t = null;
+                    t = new ASTFn(n.image, null); e1 = t;
       label_8:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -394,13 +394,15 @@ public class Parser implements ParserConstants {
         }
         jj_consume_token(COMMA);
         n = jj_consume_token(Id);
-
+                e2 = new ASTFn(n.image,null);
+                ((ASTFn)e1).setBody(e2);
+                e1 = e2;
       }
       jj_consume_token(ARROW);
       jj_consume_token(LBRA);
       e2 = Let();
       jj_consume_token(RBRA);
-
+                                                     ((ASTFn)e1).setBody(e2);
       break;
     case PRINT:
       jj_consume_token(PRINT);

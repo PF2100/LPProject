@@ -12,14 +12,14 @@ public class ASTFn implements ASTNode {
         return new VClos(env, id, body);
     }
     
-    ASTFn(String id, ASTNode body) {
+    public ASTFn(String id, ASTNode body) {
         this.id = id;
         this.body = body;
     }
 
-    public void setBody(String newId) {
+    public void setBody(ASTNode body) {
         // Apply currying by wrapping the current body in a new ASTFn node
-        this.body = new ASTFn(newId, this.body);
+        this.body = body;
     }
 
 }

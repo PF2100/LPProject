@@ -15,16 +15,15 @@ public class ASTPrint implements ASTNode {
     }
 
     public IValue eval(Environment<IValue> e) throws InterpreterError {
-        //TODO not sure how to make this print and what to return
         IValue v = message.eval(e);
-        if (v instanceof IValue ) {
+        if (v instanceof IValue) {
             if (isPrintLn) {
                 System.out.println(v.toStr());
             } else {
                 System.out.print(v.toStr());
             }
             return v;
-        } else{
+        } else {
             throw new InterpreterError("illegal types to try and Print");
         }
     }

@@ -216,7 +216,7 @@ ASTNode Term() :
 		 |
 		 op=<DIV> t2 = Fact()  { t1 = new ASTDiv(t1,t2); }
 		 |
-		 op = <LPAR> t2 = Exp () <RPAR>  { /* TBC */ } 
+		 op = <LPAR> t2 = Exp () <RPAR>  { t1 = new ASTApp(t1, t2); } 
 		)*
      { return t1; } 
 }
@@ -240,9 +240,14 @@ ASTNode Fact() :
     | <NOT> t=Fact() { t = new ASTNot(t); }
     | <IF> t=BA() <LBRA> e1=Let() <RBRA> <ELSE> <LBRA> e2=Let() <RBRA> {/* TBC */ t = null; }
     | <WHILE> t=BA() <LBRA> body=Let() <RBRA> { /* TBC */ t = null; }
-    | <FN> n=<Id> { t = null; }
-      	   	  (<COMMA> n = <Id>  {/* TBC */ })*
-		  <ARROW> <LBRA> e2 = Let() <RBRA> { /* TBC */ }
+    | <FN> n=<Id> { t = new ASTFn(n.image, null); e1 = t;}
+      	   	  (<COMMA> n = <Id>  
+              { e2 = new ASTFn(n.image,null);
+                ((ASTFn)e1).setBody(e2);
+                e1 = e2;
+              })*
+		  <ARROW> <LBRA> e2 = Let() <RBRA> { ((ASTFn)e1).setBody(e2); }
+
     | <PRINT> t=Fact() { t = new ASTPrint(false, t); }
     | <PRINTLN> t=Fact() { t = new ASTPrint(true, t); }
     | <LPAR> t=Let() <RPAR> 

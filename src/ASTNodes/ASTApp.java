@@ -14,12 +14,13 @@ public class ASTApp implements ASTNode {
             throw new InterpreterError("Expected a VClos, but got incorrect type : " + funcValue.getClass().getSimpleName());
         }
         VClos clos = (VClos) funcValue;
-        Environment<IValue> fnEnv = clos.getEnv();
-        fnEnv.assoc(clos.getParam(), value.eval(fnEnv));
-        return clos.getBody().eval(fnEnv);
+        Environment<IValue> fnEnv = clos.getEnv().beginScope();
+        fnEnv.assoc(clos.getParam(), value.eval(env));
+        IValue v = clos.getBody().eval(fnEnv);
+        return v;
     }
 
-    ASTApp(ASTNode func, ASTNode value) {
+    public ASTApp(ASTNode func, ASTNode value) {
         this.func = func;
         this.value = value;
     }
