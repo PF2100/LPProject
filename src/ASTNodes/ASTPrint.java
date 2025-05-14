@@ -23,9 +23,9 @@ public class ASTPrint implements ASTNode {
             } else {
                 System.out.print(v.toStr());
             }
+            return v;
         } else{
             throw new InterpreterError("illegal types to try and Print");
         }
-        return null;
     }
 }

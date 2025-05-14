@@ -108,7 +108,7 @@ public class Parser implements ParserConstants {
       }
       op = jj_consume_token(SEMIC);
       t2 = SeqExp();
-
+      t1 = new ASTSeq(t1,t2);
     }
        {if (true) return t1;}
     throw new Error("Missing return statement in function");
@@ -130,7 +130,7 @@ public class Parser implements ParserConstants {
       }
       op = jj_consume_token(ASSIGN);
       t2 = BA();
-
+      t1 = new ASTAssign(t1,t2);
     }
        {if (true) return t1;}
     throw new Error("Missing return statement in function");
@@ -341,12 +341,12 @@ public class Parser implements ParserConstants {
     case BOX:
       jj_consume_token(BOX);
       t = Fact();
-                       /* missing AST for box */; t = null;
+                       t = new ASTBox(t);
       break;
     case STAR:
       jj_consume_token(STAR);
       t = Fact();
-                        /* missing AST for deref */; t = null;
+                        t = new ASTStar(t);
       break;
     case MINUS:
       jj_consume_token(MINUS);
